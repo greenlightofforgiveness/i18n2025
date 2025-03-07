@@ -6,6 +6,7 @@ import qualified Data.ByteString.UTF8 as UTF8
 import Main.Utf8 (withUtf8)
 
 -- https://hackage.haskell.org/package/with-utf8
+-- https://serokell.io/blog/haskell-with-utf8
 -- https://stackoverflow.com/questions/44876904/in-haskell-how-do-i-get-the-number-of-bytes-in-a-utf8-string
 
 main :: IO ()
