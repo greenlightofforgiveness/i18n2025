@@ -14,7 +14,8 @@ main :: IO ()
 main = withUtf8 $ do
     contents <- lines <$> readFile "input.txt"
     putStrLn $ analyze contents 0
-     
+
+analyze  :: [String] -> Int -> String     
 analyze [] acc = show acc
 analyze (x : xs) acc = analyze xs acc' where bytes_long = BS.length $ UTF8.fromString x
                                              ch_long = length x
