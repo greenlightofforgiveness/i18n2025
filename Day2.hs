@@ -5,6 +5,9 @@ import qualified Data.Time.ISO8601 as ISO
 import Data.Maybe (fromJust)
 import qualified Data.Map as Map
 
+-- https://hackage.haskell.org/package/time-1.14
+-- https://hackage.haskell.org/package/iso8601-time
+
 main :: IO ()
 
 main = do
