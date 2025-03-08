@@ -14,5 +14,5 @@ main = do
 analyze  :: [DTC.UTCTime] -> String
 analyze times = ans' ++ "+00:00"
                         where acc = filter (\(a, b) -> b >= 4) $ Map.toList $ Map.fromListWith (+) $ zip times (repeat 1)
-                              ans = ISO.formatISO8601 $ fst (acc !! 0)
+                              ans = ISO.formatISO8601 $ fst $ acc !! 0
                               ans' = reverse . tail . reverse $ ans
