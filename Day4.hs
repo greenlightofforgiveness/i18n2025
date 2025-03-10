@@ -6,6 +6,8 @@ import Data.Time.Zones (TZ, localTimeToUTCTZ)
 import Data.Time.Zones.All (tzByName)
 import Data.Maybe (fromJust)
 
+-- https://stackoverflow.com/questions/4174372/haskell-date-parsing-and-formatting
+
 main :: IO ()
 
 main = do
