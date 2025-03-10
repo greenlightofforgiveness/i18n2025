@@ -6,8 +6,6 @@ import Data.Time.Zones (TZ, localTimeToUTCTZ)
 import Data.Time.Zones.All (tzByName)
 import Data.Maybe (fromJust)
 
--- https://stackoverflow.com/questions/4174372/haskell-date-parsing-and-formatting
-
 main :: IO ()
 
 main = do
@@ -19,8 +17,8 @@ analyze [] acc = show $ (read (reverse . tail . reverse . show $ acc) :: Int) `d
 analyze (x1 :  x2 : xs) acc = analyze xs acc'
                                         where   data1 = words x1
                                                 data2 = words x2
-                                                dateString1 = (data1 !! 2) ++ " " ++ (data1 !! 3) ++ " " ++ (data1 !! 4) ++ " " ++ (data1 !! 5)
-                                                dateString2 = (data2 !! 2) ++ " " ++ (data2 !! 3) ++ " " ++ (data2 !! 4) ++ " " ++ (data2 !! 5)
+                                                dateString1 = unwords $ drop 2 data1
+                                                dateString2 = unwords $ drop 2 data2
                                                 timeFromString1 = parseTimeOrError True defaultTimeLocale "%b %d, %Y, %H:%M" dateString1 :: LocalTime
                                                 timeFromString2 = parseTimeOrError True defaultTimeLocale "%b %d, %Y, %H:%M" dateString2 :: LocalTime
                                                 tz1 = fromJust $ tzByName $ UTF8.fromString (data1 !! 1)
