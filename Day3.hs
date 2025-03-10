@@ -1,19 +1,28 @@
 module Main (main) where
 
-import Data.Char (isDigit, isUpper, isLower, isAscii)
-
-import Main.Utf8 (withUtf8)
-
--- https://hackage.haskell.org/package/with-utf8
+import qualified Data.ByteString.UTF8 as UTF8
+import Data.Time
+import Data.Time.Zones (TZ, localTimeToUTCTZ)
+import Data.Time.Zones.All (tzByName)
+import Data.Maybe (fromJust)
 
 main :: IO ()
 
-main = withUtf8 $ do
-    contents <- lines <$> readFile "input.txt"
+main = do
+    contents <- filter (/= "") . lines <$> readFile "input.txt"
     putStrLn $ analyze contents 0
 
-analyze  :: [String] -> Int -> String
-analyze [] acc = show acc
-analyze (x : xs) acc = analyze xs acc' where ch_long = length x
-                                             acc' | ch_long >= 4 && ch_long <= 12 && any isDigit x && any isUpper x && any isLower x && any (not . isAscii) x = acc + 1
-                                                  | otherwise = acc
+analyze  :: [String] -> NominalDiffTime -> String
+analyze [] acc = show $ (read (reverse . tail . reverse . show $ acc) :: Int) `div` 60
+analyze (x1 :  x2 : xs) acc = analyze xs acc'
+                                        where   data1 = words x1
+                                                data2 = words x2
+                                                dateString1 = (data1 !! 2) ++ " " ++ (data1 !! 3) ++ " " ++ (data1 !! 4) ++ " " ++ (data1 !! 5)
+                                                dateString2 = (data2 !! 2) ++ " " ++ (data2 !! 3) ++ " " ++ (data2 !! 4) ++ " " ++ (data2 !! 5)
+                                                timeFromString1 = parseTimeOrError True defaultTimeLocale "%b %d, %Y, %H:%M" dateString1 :: LocalTime
+                                                timeFromString2 = parseTimeOrError True defaultTimeLocale "%b %d, %Y, %H:%M" dateString2 :: LocalTime
+                                                tz1 = fromJust $ tzByName $ UTF8.fromString (data1 !! 1)
+                                                tz2 = fromJust $ tzByName $ UTF8.fromString (data2 !! 1)
+                                                t1 = localTimeToUTCTZ tz1 timeFromString1
+                                                t2 = localTimeToUTCTZ tz2 timeFromString2
+                                                acc' = acc + (diffUTCTime t2 t1)
