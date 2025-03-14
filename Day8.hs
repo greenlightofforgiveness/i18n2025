@@ -1,16 +1,18 @@
 module Main (main) where
 
 import Data.Char (isDigit, toLower, isLetter)
-import Data.List (nub, elem)
+import Data.List (nub)
 import Data.Maybe (fromJust)
 
 import Main.Utf8 (withUtf8)
 
 -- https://stackoverflow.com/questions/44290218/how-do-you-remove-accents-from-a-string-in-haskell
 
+-- https://hackage.haskell.org/package/text-icu
+
 import qualified Data.Text as T
 import Data.Text.ICU.Char
-import Data.Text.ICU.Normalize
+import Data.Text.ICU.Normalize2
 
 canonicalForm :: String -> String
 canonicalForm s = T.unpack noAccents
