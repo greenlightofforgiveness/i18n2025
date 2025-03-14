@@ -3,7 +3,6 @@ module Main (main) where
 import qualified Data.Time.Clock as DTC
 import qualified Data.Time.ISO8601 as ISO
 import Data.Maybe (fromJust)
-import Data.Char (isAscii)
 
 import qualified Data.ByteString.UTF8 as UTF8
 import Data.Time
@@ -15,7 +14,7 @@ import Main.Utf8 (withUtf8)
 main :: IO ()
 
 main = withUtf8 $ do
-    contents <- map (filter isAscii) . lines <$> readFile "input.txt"
+    contents <- lines <$> readFile "input.txt"
     putStrLn $ analyze contents 1 0
 
 analyze  :: [String] -> Int -> Int -> String
