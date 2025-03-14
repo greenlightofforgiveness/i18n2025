@@ -32,7 +32,7 @@ analyze (x : xs) acc = analyze xs acc' where ch_long = length x
                                              cf = map toLower $ canonicalForm x
                                              acc' | ch_long >= 4 && ch_long <= 12 &&
                                                     any isDigit x &&
-                                                    any (`elem` "aeiouау") (filter isLetter cf) &&
-                                                    any (\x -> not (x `elem` "aeiouау")) (filter isLetter cf) &&
+                                                    any (`elem` "aeiou") (filter isLetter cf) &&
+                                                    any (\x -> not (x `elem` "aeiou")) (filter isLetter cf) &&
                                                     (length $ nub cf) == ch_long = acc + 1
                                                   | otherwise = acc
