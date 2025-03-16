@@ -1,6 +1,8 @@
 module Main (main) where
 
 import Main.Utf8 (withUtf8)
+import qualified Data.ByteString as B
+import qualified Data.ByteString.UTF8 as UTF8
 
 main :: IO ()
 
@@ -11,5 +13,5 @@ main =  withUtf8 $ do
 analyze  :: [String] -> Int -> Int -> String
 analyze [] i acc = show acc
 analyze (x : xs) i acc = analyze xs i' acc'
-                                        where acc' = if x !! i == '💩' then acc + 1 else acc
+                                        where acc' = if x !! i == (UTF8.toString $ B.pack [240, 159, 146, 169]) !! 0  then acc + 1 else acc 
                                               i' = (i + 2) `mod` (length x)
