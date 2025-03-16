@@ -1,7 +1,7 @@
 module Main (main) where
 
 import qualified Data.Map as Map
-import Data.List.Split
+import Data.List.Split (splitOn)
 
 import Main.Utf8 (withUtf8)
 
@@ -33,4 +33,4 @@ isGood inp = let inp' = map (splitOn "-") inp
                         in ("11-09-01" `elem` inp && "DMY" `elem` t) ||
                            ("09-11-01" `elem` inp && "MDY" `elem` t) ||
                            ("01-09-11" `elem` inp && "YMD" `elem` t) ||
-                           ("01-11-09" `elem` inp && "YDM" `elem` t)                                             
+                           ("01-11-09" `elem` inp && "YDM" `elem` t)
