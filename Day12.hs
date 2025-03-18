@@ -6,7 +6,7 @@ import Data.List.Split (splitOn)
 import Data.Sort (sortOn)
 import Data.Char (toLower, isLetter, ord)
 import Data.Maybe (fromJust)
-import qualified Data.List as L
+import Data.List (findIndex)
 
 import qualified Data.Text as T
 import Data.Text.ICU.Char
@@ -33,7 +33,7 @@ analyze inp = let sortEng = sortOn fst $ map (\(a, b) -> ((canonicalForm $ (\x -
                   i = (length inp) `div` 2
                   ansEng = snd (sortEng !! i)
                   alphabetSwed = "abcdefghijklmnopqrstuvwxyzåäö"
-                  sortSwed = sortOn fst $ map (\(a, b) -> (map (\c -> if (c `elem` alphabetSwed) then fromJust $ L.findIndex (== c) alphabetSwed else ord c) $ (\x -> replaceSwed x []) $ map toLower $ filter isLetter a, b)) inp
+                  sortSwed = sortOn fst $ map (\(a, b) -> (map (\c -> if (c `elem` alphabetSwed) then fromJust $ findIndex (== c) alphabetSwed else ord c) $ (\x -> replaceSwed x []) $ map toLower $ filter isLetter a, b)) inp
                   ansSwed = snd (sortSwed !! i)
                   sortDutch = sortOn fst $ map (\(a, b) -> ((canonicalForm $ (\x -> replaceEng x []) $ map toLower $ filter isLetter $ (unwords . filter (`notElem` ["van", "den", "de", "der"]). words) a), b)) inp
                   ansDutch = snd (sortDutch !! i)
