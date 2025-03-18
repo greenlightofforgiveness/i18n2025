@@ -2,20 +2,17 @@ module Main (main) where
 
 import Main.Utf8 (withUtf8)
 
-import qualified Data.Map as Map
 import Data.List.Split (splitOn)
-import Data.Sort
+import Data.Sort (sortOn)
 import Data.Char (toLower, isLetter, ord)
-
-import qualified Data.ByteString as B
-import qualified Data.ByteString.UTF8 as UTF8
-
 import Data.Maybe (fromJust)
 import qualified Data.List as L
 
 import qualified Data.Text as T
 import Data.Text.ICU.Char
 import Data.Text.ICU.Normalize2
+
+-- https://stackoverflow.com/questions/44290218/how-do-you-remove-accents-from-a-string-in-haskell
 
 canonicalForm :: String -> String
 canonicalForm s = T.unpack noAccents
@@ -36,7 +33,7 @@ analyze inp = let sortEng = sortOn fst $ map (\(a, b) -> ((canonicalForm $ (\x -
                   i = (length inp) `div` 2
                   ansEng = snd (sortEng !! i)
                   alphabetSwed = "abcdefghijklmnopqrstuvwxyzåäö"
-                  sortSwed = sortOn fst $ map (\(a, b) -> (map (\c -> if (c `elem` alphabetSwed) then (fromJust $ L.findIndex (== c) alphabetSwed) else ord c) $ (\x -> replaceSwed x []) $ map toLower $ filter isLetter a, b)) inp
+                  sortSwed = sortOn fst $ map (\(a, b) -> (map (\c -> if (c `elem` alphabetSwed) then fromJust $ L.findIndex (== c) alphabetSwed else ord c) $ (\x -> replaceSwed x []) $ map toLower $ filter isLetter a, b)) inp
                   ansSwed = snd (sortSwed !! i)
                   sortDutch = sortOn fst $ map (\(a, b) -> ((canonicalForm $ (\x -> replaceEng x []) $ map toLower $ filter isLetter $ (unwords . filter (`notElem` ["van", "den", "de", "der"]). words) a), b)) inp
                   ansDutch = snd (sortDutch !! i)
