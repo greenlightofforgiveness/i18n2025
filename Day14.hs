@@ -9,7 +9,7 @@ main :: IO ()
 
 main = withUtf8 $ do
     contents <- lines <$> readFile "input.txt"
-    putStrLn $ show $ analyze contents 0
+    putStrLn $ analyze contents 0
 
 analyze  :: [String] -> Double -> String
 analyze [] acc = show acc
