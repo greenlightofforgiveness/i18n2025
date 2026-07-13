@@ -1,5 +1,5 @@
 {-
-Idea — Codex, charToTile — Gemini
+Idea — Codex (gpt-5.4), charToTile — Gemini
 -}
 
 module Main where
